@@ -88,7 +88,7 @@ form.addEventListener("submit", function (e) {
 
   // CEK SEMUA VALID
   if (isFirstNameValid && isLastNameValid && isEmailValid && isPhoneValid) {
-    statusMessage.textContent = "Thank you, your message has been sent!";
+    statusMessage.textContent = "Terima kasih, sudah mengisi form!";
     statusMessage.className = "text-green-500 mt-3";
 
     form.reset();
