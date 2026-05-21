@@ -16,66 +16,78 @@ const phoneError = document.getElementById("phoneError");
 const statusMessage = document.getElementById("statusMessage");
 
 // REGEX
-const namePattern = /^[A-Za-z]+$/;
+const namePattern = /^[A-Za-z\s]+$/;
 const phonePattern = /^[0-9]+$/;
 
 // VALIDASI FIRST NAME
-firstName.addEventListener("input", () => {
-  if (!namePattern.test(firstName.value)) {
+function validateFirstName() {
+  if (firstName.value.trim() === "" || !namePattern.test(firstName.value)) {
     firstNameError.textContent = "Nama hanya boleh huruf a-z";
     firstName.classList.add("border-red-500");
+    return false;
   } else {
     firstNameError.textContent = "";
     firstName.classList.remove("border-red-500");
+    return true;
   }
-});
+}
 
 // VALIDASI LAST NAME
-lastName.addEventListener("input", () => {
-  if (!namePattern.test(lastName.value)) {
+function validateLastName() {
+  if (lastName.value.trim() === "" || !namePattern.test(lastName.value)) {
     lastNameError.textContent = "Nama hanya boleh huruf a-z";
     lastName.classList.add("border-red-500");
+    return false;
   } else {
     lastNameError.textContent = "";
     lastName.classList.remove("border-red-500");
+    return true;
   }
-});
+}
 
 // VALIDASI EMAIL
-email.addEventListener("input", () => {
-  if (!email.value.includes("@")) {
+function validateEmail() {
+  if (email.value.trim() === "" || !email.value.includes("@")) {
     emailError.textContent = "Email harus mengandung @";
     email.classList.add("border-red-500");
+    return false;
   } else {
     emailError.textContent = "";
     email.classList.remove("border-red-500");
+    return true;
   }
-});
+}
 
 // VALIDASI PHONE
-phone.addEventListener("input", () => {
-  if (!phonePattern.test(phone.value)) {
+function validatePhone() {
+  if (phone.value.trim() === "" || !phonePattern.test(phone.value)) {
     phoneError.textContent = "Nomor telepon hanya boleh angka 0-9";
     phone.classList.add("border-red-500");
+    return false;
   } else {
     phoneError.textContent = "";
     phone.classList.remove("border-red-500");
+    return true;
   }
-});
+}
 
-// SUBMIT
-form.addEventListener("submit", (e) => {
+// VALIDASI REALTIME
+firstName.addEventListener("input", validateFirstName);
+lastName.addEventListener("input", validateLastName);
+email.addEventListener("input", validateEmail);
+phone.addEventListener("input", validatePhone);
+
+// SUBMIT FORM
+form.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  // cek semua valid
-  const validName =
-    namePattern.test(firstName.value) && namePattern.test(lastName.value);
+  const isFirstNameValid = validateFirstName();
+  const isLastNameValid = validateLastName();
+  const isEmailValid = validateEmail();
+  const isPhoneValid = validatePhone();
 
-  const validEmail = email.value.includes("@");
-
-  const validPhone = phonePattern.test(phone.value);
-
-  if (validName && validEmail && validPhone) {
+  // CEK SEMUA VALID
+  if (isFirstNameValid && isLastNameValid && isEmailValid && isPhoneValid) {
     statusMessage.textContent = "Thank you, your message has been sent!";
     statusMessage.className = "text-green-500 mt-3";
 
